@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CitizenRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CitizenRepository::class)]
@@ -27,6 +29,21 @@ class Citizen
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
+
+    #[ORM\OneToMany(mappedBy: 'tested_citizen', targetEntity: Grade::class)]
+    private $grades;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'Mentor')]
+    private $Mentored;
+
+    #[ORM\OneToMany(mappedBy: 'Mentored', targetEntity: self::class)]
+    private $Mentor;
+
+    public function __construct()
+    {
+        $this->grades = new ArrayCollection();
+        $this->Mentor = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +106,105 @@ class Citizen
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Grade>
+     */
+    public function getTest(): Collection
+    {
+        return $this->test;
+    }
+
+    public function addTest(Grade $test): self
+    {
+        if (!$this->test->contains($test)) {
+            $this->test[] = $test;
+        }
+
+        return $this;
+    }
+
+    public function removeTest(Grade $test): self
+    {
+        if ($this->test->removeElement($test)) {
+            // set the owning side to null (unless already changed)
+
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Grade>
+     */
+    public function getGrades(): Collection
+    {
+        return $this->grades;
+    }
+
+    public function addGrade(Grade $grade): self
+    {
+        if (!$this->grades->contains($grade)) {
+            $this->grades[] = $grade;
+            $grade->setTestedCitizen($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGrade(Grade $grade): self
+    {
+        if ($this->grades->removeElement($grade)) {
+            // set the owning side to null (unless already changed)
+            if ($grade->getTestedCitizen() === $this) {
+                $grade->setTestedCitizen(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMentored(): ?self
+    {
+        return $this->Mentored;
+    }
+
+    public function setMentored(?self $Mentored): self
+    {
+        $this->Mentored = $Mentored;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getMentor(): Collection
+    {
+        return $this->Mentor;
+    }
+
+    public function addMentor(self $mentor): self
+    {
+        if (!$this->Mentor->contains($mentor)) {
+            $this->Mentor[] = $mentor;
+            $mentor->setMentored($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMentor(self $mentor): self
+    {
+        if ($this->Mentor->removeElement($mentor)) {
+            // set the owning side to null (unless already changed)
+            if ($mentor->getMentored() === $this) {
+                $mentor->setMentored(null);
+            }
+        }
 
         return $this;
     }
