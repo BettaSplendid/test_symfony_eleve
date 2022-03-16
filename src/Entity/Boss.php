@@ -23,8 +23,8 @@ class Boss extends Citizen
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->Badge_Number;
-    }
+    // public function __toString()
+    // {
+    //     return $this->Badge_Number;
+    // }
 }
