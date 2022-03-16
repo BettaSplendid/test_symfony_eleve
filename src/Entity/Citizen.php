@@ -6,9 +6,17 @@ use App\Repository\CitizenRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Boss;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn('role_type', "string")]
+#[ORM\DiscriminatorMap(['citizen' => 'Citizen', 'boss' => 'Boss'])]
 
 #[ORM\Entity(repositoryClass: CitizenRepository::class)]
-class Citizen
+
+class Citizen 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,7 +36,7 @@ class Citizen
     private $password;
 
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private $roles;
 
     #[ORM\OneToMany(mappedBy: 'tested_citizen', targetEntity: Grade::class)]
     private $grades;
@@ -39,10 +47,14 @@ class Citizen
     #[ORM\OneToMany(mappedBy: 'Mentored', targetEntity: self::class)]
     private $Mentor;
 
+    #[ORM\ManyToMany(targetEntity: Study::class, inversedBy: 'citizens')]
+    private $studies;
+
     public function __construct()
     {
         $this->grades = new ArrayCollection();
         $this->Mentor = new ArrayCollection();
+        $this->studies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,7 +105,7 @@ class Citizen
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
 
         return $this;
     }
@@ -205,6 +217,30 @@ class Citizen
                 $mentor->setMentored(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Study>
+     */
+    public function getStudies(): Collection
+    {
+        return $this->studies;
+    }
+
+    public function addStudy(Study $study): self
+    {
+        if (!$this->studies->contains($study)) {
+            $this->studies[] = $study;
+        }
+
+        return $this;
+    }
+
+    public function removeStudy(Study $study): self
+    {
+        $this->studies->removeElement($study);
 
         return $this;
     }

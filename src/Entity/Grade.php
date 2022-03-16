@@ -4,8 +4,14 @@ namespace App\Entity;
 
 use App\Repository\GradeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+
 
 #[ORM\Entity(repositoryClass: GradeRepository::class)]
+
 class Grade
 {
     #[ORM\Id]

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Citizen{% endblock %}
+
+{% block body %}
+    <h1>Edit Citizen</h1>
+
+    {{ include('citizen/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_citizen_index') }}">back to list</a>
+
+    {{ include('citizen/_delete_form.html.twig') }}
+{% endblock %}

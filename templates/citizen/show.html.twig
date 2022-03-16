@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Citizen{% endblock %}
+
+{% block body %}
+    <h1>Citizen</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ citizen.id }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ citizen.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ citizen.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ citizen.email }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ citizen.password }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ citizen.roles ? citizen.roles|json_encode : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_citizen_index') }}">back to list</a>
+
+    <a href="{{ path('app_citizen_edit', {'id': citizen.id}) }}">edit</a>
+
+    {{ include('citizen/_delete_form.html.twig') }}
+{% endblock %}

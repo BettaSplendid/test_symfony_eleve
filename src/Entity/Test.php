@@ -27,6 +27,9 @@ class Test
     #[ORM\OneToMany(mappedBy: 'test', targetEntity: Grade::class)]
     private $grades;
 
+    #[ORM\ManyToOne(targetEntity: Study::class, inversedBy: 'tests')]
+    private $Matter;
+
     public function __construct()
     {
         $this->grades = new ArrayCollection();
@@ -99,6 +102,18 @@ class Test
                 $grade->setTest(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMatter(): ?Study
+    {
+        return $this->Matter;
+    }
+
+    public function setMatter(?Study $Matter): self
+    {
+        $this->Matter = $Matter;
 
         return $this;
     }

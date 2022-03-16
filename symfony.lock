@@ -92,6 +92,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
+    "fzaninotto/faker": {
+        "version": "v1.5.0"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
@@ -229,6 +232,18 @@
     "sebastian/version": {
         "version": "3.0.2"
     },
+    "sensio/framework-extra-bundle": {
+        "version": "6.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
+        },
+        "files": [
+            "config/packages/sensio_framework_extra.yaml"
+        ]
+    },
     "symfony/browser-kit": {
         "version": "v6.0.3"
     },
@@ -298,6 +313,9 @@
             ".env"
         ]
     },
+    "symfony/form": {
+        "version": "v6.0.5"
+    },
     "symfony/framework-bundle": {
         "version": "6.0",
         "recipe": {
@@ -332,6 +350,9 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/options-resolver": {
+        "version": "v6.0.3"
+    },
     "symfony/password-hasher": {
         "version": "v6.0.3"
     },
@@ -351,6 +372,9 @@
         ]
     },
     "symfony/polyfill-intl-grapheme": {
+        "version": "v1.25.0"
+    },
+    "symfony/polyfill-intl-icu": {
         "version": "v1.25.0"
     },
     "symfony/polyfill-intl-normalizer": {
@@ -420,6 +444,37 @@
     "symfony/string": {
         "version": "v6.0.3"
     },
+    "symfony/translation-contracts": {
+        "version": "v3.0.0"
+    },
+    "symfony/twig-bridge": {
+        "version": "v6.0.5"
+    },
+    "symfony/twig-bundle": {
+        "version": "6.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.4",
+            "ref": "bb2178c57eee79e6be0b297aa96fc0c0def81387"
+        },
+        "files": [
+            "config/packages/twig.yaml",
+            "templates/base.html.twig"
+        ]
+    },
+    "symfony/validator": {
+        "version": "6.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.3",
+            "ref": "c32cfd98f714894c4f128bb99aa2530c1227603c"
+        },
+        "files": [
+            "config/packages/validator.yaml"
+        ]
+    },
     "symfony/var-dumper": {
         "version": "v6.0.6"
     },
@@ -431,6 +486,9 @@
     },
     "theseer/tokenizer": {
         "version": "1.2.1"
+    },
+    "twig/twig": {
+        "version": "v3.3.8"
     },
     "webmozart/assert": {
         "version": "1.10.0"
