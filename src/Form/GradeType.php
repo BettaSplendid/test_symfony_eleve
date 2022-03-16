@@ -14,8 +14,7 @@ class GradeType extends AbstractType
         $builder
             ->add('grade')
             ->add('test')
-            ->add('tested_citizen')
-        ;
+            ->add('tested_citizen');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

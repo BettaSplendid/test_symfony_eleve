@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Boss;
+use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -161,7 +162,7 @@ class Citizen
     {
         if (!$this->grades->contains($grade)) {
             $this->grades[] = $grade;
-            $grade->setTestedCitizen($this);
+            $grade->setTested_Citizen($this);
         }
 
         return $this;
@@ -171,8 +172,8 @@ class Citizen
     {
         if ($this->grades->removeElement($grade)) {
             // set the owning side to null (unless already changed)
-            if ($grade->getTestedCitizen() === $this) {
-                $grade->setTestedCitizen(null);
+            if ($grade->getTested_Citizen() === $this) {
+                $grade->setTested_Citizen(null);
             }
         }
 

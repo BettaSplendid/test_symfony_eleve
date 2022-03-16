@@ -26,7 +26,7 @@ class Grade
     private $test;
 
     #[ORM\ManyToOne(targetEntity: Citizen::class, inversedBy: 'grades')]
-    private $tested_citizen;
+    public $tested_citizen;
 
     public function getId(): ?int
     {
