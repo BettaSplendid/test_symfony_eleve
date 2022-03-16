@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Citizen;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,8 +18,17 @@ class CitizenType extends AbstractType
             ->add('email')
             ->add('password')
             ->add('roles')
-            ->add('Mentored')
+            ->add('mentored')
         ;
+        $builder->get('roles')->addModelTransformer(new CallbackTransformer(
+            function ($tagsAsArray) {
+                return \implode(',', $tagsAsArray);
+            },
+
+            function ($tagsAsString) {
+                return explode(', ', $tagsAsString);
+            }
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

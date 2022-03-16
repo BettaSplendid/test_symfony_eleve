@@ -42,9 +42,9 @@ class Citizen
     private $grades;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'Mentor')]
-    private $Mentored;
+    private $mentored;
 
-    #[ORM\OneToMany(mappedBy: 'Mentored', targetEntity: self::class)]
+    #[ORM\OneToMany(mappedBy: 'mentored', targetEntity: self::class)]
     private $Mentor;
 
     #[ORM\ManyToMany(targetEntity: Study::class, inversedBy: 'citizens')]
@@ -181,12 +181,12 @@ class Citizen
 
     public function getMentored(): ?self
     {
-        return $this->Mentored;
+        return $this->mentored;
     }
 
-    public function setMentored(?self $Mentored): self
+    public function setMentored(?self $mentored): self
     {
-        $this->Mentored = $Mentored;
+        $this->mentored = $mentored;
 
         return $this;
     }
@@ -243,5 +243,10 @@ class Citizen
         $this->studies->removeElement($study);
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->lastname . $this->firstname;
     }
 }
