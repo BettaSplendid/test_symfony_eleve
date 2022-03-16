@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\StudyRepository;
+use App\Repository\LessonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: StudyRepository::class)]
-class Study
+#[ORM\Entity(repositoryClass: LessonRepository::class)]
+class Lesson
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -119,7 +119,7 @@ class Study
     {
         if (!$this->citizens->contains($citizen)) {
             $this->citizens[] = $citizen;
-            $citizen->addStudy($this);
+            $citizen->addLesson($this);
         }
 
         return $this;
@@ -128,9 +128,14 @@ class Study
     public function removeCitizen(Citizen $citizen): self
     {
         if ($this->citizens->removeElement($citizen)) {
-            $citizen->removeStudy($this);
+            $citizen->removeLesson($this);
         }
 
         return $this;
+    }
+    
+    public function __toString()
+    {
+        return $this->name;
     }
 }

@@ -47,7 +47,7 @@ class Citizen
     #[ORM\OneToMany(mappedBy: 'mentored', targetEntity: self::class)]
     private $Mentor;
 
-    #[ORM\ManyToMany(targetEntity: Study::class, inversedBy: 'citizens')]
+    #[ORM\ManyToMany(targetEntity: Lesson::class, inversedBy: 'citizens')]
     private $studies;
 
     public function __construct()
@@ -222,25 +222,25 @@ class Citizen
     }
 
     /**
-     * @return Collection<int, Study>
+     * @return Collection<int, Lesson>
      */
     public function getStudies(): Collection
     {
         return $this->studies;
     }
 
-    public function addStudy(Study $study): self
+    public function addLesson(Lesson $lesson): self
     {
-        if (!$this->studies->contains($study)) {
-            $this->studies[] = $study;
+        if (!$this->studies->contains($lesson)) {
+            $this->studies[] = $lesson;
         }
 
         return $this;
     }
 
-    public function removeStudy(Study $study): self
+    public function removeLesson(Lesson $lesson): self
     {
-        $this->studies->removeElement($study);
+        $this->studies->removeElement($lesson);
 
         return $this;
     }

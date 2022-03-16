@@ -4,9 +4,9 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Study;
+use App\Entity\Lesson;
 
-class StudyFixtures extends Fixture
+class LessonFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
@@ -14,13 +14,13 @@ class StudyFixtures extends Fixture
         $a = 0;
         while ($a <= 10) {
             # code...
-            $Study = new Study();
-            $Study->setStart($faker->dateTime);
-            $Study->setFinish($faker->dateTime);
-            $Study->setName($faker->company);
+            $Lesson = new Lesson();
+            $Lesson->setStart($faker->dateTime);
+            $Lesson->setFinish($faker->dateTime);
+            $Lesson->setName($faker->company);
             $a++;
             
-            $manager->persist($Study);
+            $manager->persist($Lesson);
             $manager->flush();
         }
 

@@ -2,27 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Study;
+use App\Entity\Grade;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class StudyType extends AbstractType
+class GradeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('start')
-            ->add('finish')
-            ->add('citizens')
+            ->add('grade')
+            ->add('test')
+            ->add('tested_citizen')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Study::class,
+            'data_class' => Grade::class,
         ]);
     }
 }

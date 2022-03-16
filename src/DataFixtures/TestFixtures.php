@@ -5,7 +5,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Test;
-use App\Entity\Study;
+use App\Entity\Lesson;
 
 class TestFixtures extends Fixture
 {
