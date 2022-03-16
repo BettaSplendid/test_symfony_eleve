@@ -57,12 +57,12 @@ class Grade
         return $this;
     }
 
-    public function getTestedCitizen(): ?Citizen
+    public function getTested_Citizen(): ?Citizen
     {
         return $this->tested_citizen;
     }
 
-    public function setTestedCitizen(?Citizen $tested_citizen): self
+    public function setTested_Citizen(?Citizen $tested_citizen): self
     {
         $this->tested_citizen = $tested_citizen;
 

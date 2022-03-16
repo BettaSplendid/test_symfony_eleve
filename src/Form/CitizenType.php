@@ -16,7 +16,7 @@ class CitizenType extends AbstractType
             ->add('lastname')
             ->add('firstname')
             ->add('email');
-        if ($options['mode'] === "edit")
+        if ($options['mode'] !== "edit")
             $builder
                 ->add('password');
         $builder
