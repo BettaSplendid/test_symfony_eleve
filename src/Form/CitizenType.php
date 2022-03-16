@@ -15,11 +15,13 @@ class CitizenType extends AbstractType
         $builder
             ->add('lastname')
             ->add('firstname')
-            ->add('email')
-            ->add('password')
+            ->add('email');
+        if ($options['mode'] === "edit")
+            $builder
+                ->add('password');
+        $builder
             ->add('roles')
-            ->add('mentored')
-        ;
+            ->add('mentored');
         $builder->get('roles')->addModelTransformer(new CallbackTransformer(
             function ($tagsAsArray) {
                 return \implode(',', $tagsAsArray);
@@ -35,6 +37,7 @@ class CitizenType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Citizen::class,
+            'mode' => "standard"
         ]);
     }
 }

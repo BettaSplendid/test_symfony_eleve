@@ -50,7 +50,9 @@ class CitizenController extends AbstractController
     #[Route('/{id}/edit', name: 'app_citizen_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Citizen $citizen, CitizenRepository $citizenRepository): Response
     {
-        $form = $this->createForm(CitizenType::class, $citizen);
+        $mode = "edit";
+        $form = $this->createForm(CitizenType::class, $citizen, array('mode' => $mode));
+        // ['mode' => $mode]
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
