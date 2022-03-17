@@ -6,8 +6,7 @@ use App\Repository\CitizenRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Boss;
-use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -17,6 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\DiscriminatorMap(['citizen' => 'Citizen', 'boss' => 'Boss'])]
 
 #[ORM\Entity(repositoryClass: CitizenRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 
 class Citizen implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -51,6 +51,9 @@ class Citizen implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Lesson::class, inversedBy: 'citizens')]
     private $studies;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
     public function __construct()
     {
