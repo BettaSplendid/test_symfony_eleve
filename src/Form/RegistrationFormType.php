@@ -11,45 +11,73 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('lastname')
+            ->add('firstname')
             ->add('email')
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
-            ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
+                // 'constraints' => [
+                //     new NotBlank([
+                //         'message' => 'Please enter a password',
+                //     ]),
+                //     new Length([
+                //         'min' => 6,
+                //         'minMessage' => 'Your password should be at least {{ limit }} characters',
+                //         // max length allowed by Symfony for security reasons
+                //         'max' => 4096,
+                //     ]),
+                // ],
             ])
-        ;
+            ->add('roles', ChoiceType::class, [
+                "choices" => [
+                    "Pupil" => "ROLE_USER",
+                    "Admin" => "ROLE_ADMIN",
+                ]
+            ])
+            ->add('pupils', EntityType::class, [
+                "class" => Citizen::class,
+                "choices" => $options["mentor"] ?? "",
+            ])
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                // 'constraints' => [
+                //     new IsTrue([
+                //         'message' => 'You should agree to our terms.',
+                //     ]),
+                // ],
+            ]);
+        $builder->get('roles')->addModelTransformer(new CallbackTransformer(
+
+            function ($tagsAsArray) {
+                // transform the array to a string
+                return implode(', ', $tagsAsArray);
+            },
+            function ($tagsAsString) {
+                // transform the string back to an array
+                return explode('. ', $tagsAsString);
+            }
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Citizen::class,
+            'mentor' => [],
+            // 'constraints' => [],
         ]);
     }
 }

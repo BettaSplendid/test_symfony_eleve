@@ -38,7 +38,7 @@ class Citizen implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'json')]
-    private $roles;
+    private $roles = [];
 
     #[ORM\OneToMany(mappedBy: 'tested_citizen', targetEntity: Grade::class)]
     private $grades;
