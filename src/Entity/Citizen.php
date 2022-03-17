@@ -6,18 +6,19 @@ use App\Repository\CitizenRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Boss;
-use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+#[ORM\Table(name: 'citizen')]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn('role_type', "string")]
 #[ORM\DiscriminatorMap(['citizen' => 'Citizen', 'boss' => 'Boss'])]
 
 #[ORM\Entity(repositoryClass: CitizenRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 
-class Citizen 
+class Citizen implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -43,13 +44,16 @@ class Citizen
     private $grades;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'Mentor')]
-    private $mentored;
+    private $pupils;
 
-    #[ORM\OneToMany(mappedBy: 'mentored', targetEntity: self::class)]
+    #[ORM\OneToMany(mappedBy: 'pupils', targetEntity: self::class)]
     private $Mentor;
 
     #[ORM\ManyToMany(targetEntity: Lesson::class, inversedBy: 'citizens')]
     private $studies;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
     public function __construct()
     {
@@ -111,10 +115,10 @@ class Citizen
         return $this;
     }
 
-    public function getRoles(): ?array
-    {
-        return $this->roles;
-    }
+    // public function getRoles(): ?array
+    // {
+    //     return $this->roles;
+    // }
 
     public function setRoles(array $roles): self
     {
@@ -180,14 +184,14 @@ class Citizen
         return $this;
     }
 
-    public function getMentored(): ?self
+    public function getpupils(): ?self
     {
-        return $this->mentored;
+        return $this->pupils;
     }
 
-    public function setMentored(?self $mentored): self
+    public function setpupils(?self $pupils): self
     {
-        $this->mentored = $mentored;
+        $this->pupils = $pupils;
 
         return $this;
     }
@@ -204,7 +208,7 @@ class Citizen
     {
         if (!$this->Mentor->contains($mentor)) {
             $this->Mentor[] = $mentor;
-            $mentor->setMentored($this);
+            $mentor->setpupils($this);
         }
 
         return $this;
@@ -214,8 +218,8 @@ class Citizen
     {
         if ($this->Mentor->removeElement($mentor)) {
             // set the owning side to null (unless already changed)
-            if ($mentor->getMentored() === $this) {
-                $mentor->setMentored(null);
+            if ($mentor->getpupils() === $this) {
+                $mentor->setpupils(null);
             }
         }
 
@@ -250,4 +254,32 @@ class Citizen
     {
         return $this->lastname . $this->firstname;
     }
+    
+    public function eraseCredentials()
+    {
+        
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this;
+    } 
+
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
 }

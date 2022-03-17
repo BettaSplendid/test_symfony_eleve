@@ -25,7 +25,7 @@
                 <td>{{ citizen.firstname }}</td>
                 <td>{{ citizen.email }}</td>
                 <td>{{ citizen.roles ? citizen.roles|json_encode : '' }}</td>
-                <td>{{ citizen.mentored }}</td>
+                <td>{{ citizen.pupils }}</td>
                 <td>
                     <a href="{{ path('app_citizen_show', {'id': citizen.id}) }}">show</a>
                     <a href="{{ path('app_citizen_edit', {'id': citizen.id}) }}">edit</a>

@@ -3,14 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Citizen;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
-
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class CitizenType extends AbstractType
@@ -23,42 +20,40 @@ class CitizenType extends AbstractType
             ->add('email')
             ->add('roles', ChoiceType::class, [
                 "choices" => [
-                    "citizen" => "ROLE_USER",
-                    "boss" => "ROLE_ADMIN",
+                    "Pupil" => "ROLE_USER",
+                    "Admin" => "ROLE_ADMIN",
                 ]
-            ]);
-        if ($options['mode'] == "edit")
-            $builder
-                ->add('password');
-
-
-        $builder
-            // ->add('mentored');
-            ->add('mentored', EntityType::class, [
-                "class"=>Person::class,
-                "choices"=>$options["mentor"]?? "",
+            ])
+            ->add('pupils', EntityType::class, [
+                "class" => Citizen::class,
+                "choices" => $options["mentor"] ?? "",
             ]);
 
+        if ($options["mode"] !== "edit") {
+            $builder->add('password');
+        }
+            // ->add('lesson')
+        ;
 
-        $builder->get('roles', TextType::class)
-            ->addModelTransformer(new CallbackTransformer(
-                function ($tagsAsArray) {
-                    // transform the array to a string
-                    return implode(', ', $tagsAsArray);
-                },
-                function ($tagsAsString) {
-                    // transform the string back to an array
-                    return explode(', ', $tagsAsString);
-                }
-            ));
+        $builder->get('roles')->addModelTransformer(new CallbackTransformer(
+            
+            function ($tagsAsArray) {
+                 // transform the array to a string
+                 return implode(', ', $tagsAsArray);
+            },
+            function ($tagsAsString) {
+                 // transform the string back to an array
+                 return explode('. ', $tagsAsString);
+            }
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Citizen::class,
-            'mentored' => [],
-            'mode' => "standard"
+            'mentor' => [],
+            'mode' => "",
         ]);
     }
 }
