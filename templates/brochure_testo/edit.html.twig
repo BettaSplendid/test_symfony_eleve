@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit BrochureTesto{% endblock %}
+
+{% block body %}
+    <h1>Edit BrochureTesto</h1>
+
+    {{ include('brochure_testo/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_brochure_testo_index') }}">back to list</a>
+
+    {{ include('brochure_testo/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BrochureTesto{% endblock %}
+
+{% block body %}
+    <h1>BrochureTesto</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ brochure_testo.id }}</td>
+            </tr>
+            <tr>
+                <th>BrochureFilename</th>
+                <td>{{ brochure_testo.brochureFilename }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_brochure_testo_index') }}">back to list</a>
+
+    <a href="{{ path('app_brochure_testo_edit', {'id': brochure_testo.id}) }}">edit</a>
+
+    {{ include('brochure_testo/_delete_form.html.twig') }}
+{% endblock %}

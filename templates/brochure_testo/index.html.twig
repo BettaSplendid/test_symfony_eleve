@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BrochureTesto index{% endblock %}
+
+{% block body %}
+    <h1>BrochureTesto index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>BrochureFilename</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for brochure_testo in brochure_testos %}
+            <tr>
+                <td>{{ brochure_testo.id }}</td>
+                <td>{{ brochure_testo.brochureFilename }}</td>
+                <td>
+                    <a href="{{ path('app_brochure_testo_show', {'id': brochure_testo.id}) }}">show</a>
+                    <a href="{{ path('app_brochure_testo_edit', {'id': brochure_testo.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_brochure_testo_new') }}">Create new</a>
+{% endblock %}
