@@ -1,26 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BrochureTesto{% endblock %}
+{% block title %}BrochureTesto
+{% endblock %}
 
 {% block body %}
-    <h1>BrochureTesto</h1>
+	<h1>BrochureTesto</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ brochure_testo.id }}</td>
-            </tr>
-            <tr>
-                <th>BrochureFilename</th>
-                <td>{{ brochure_testo.brochureFilename }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ brochure_testo.id }}</td>
+			</tr>
+			<tr>
+				<th>BrochureFilename</th>
+				{# <td><img src={{ asset('uploads/brochures/My-performance-62348b24d4627.png') }}></td> #}
+				{# <td><img src= asset('uploads/brochures/{{brochure_testo.brochureFilename}}') alt="404"/></td> #}
+				<td><img src="{{asset('uploads/brochures/'~brochure_testo.brochureFilename)}}" alt="PEPSI!"/></td>
 
-    <a href="{{ path('app_brochure_testo_index') }}">back to list</a>
 
-    <a href="{{ path('app_brochure_testo_edit', {'id': brochure_testo.id}) }}">edit</a>
 
-    {{ include('brochure_testo/_delete_form.html.twig') }}
+				{# <td><img src="/public/uploads/brochures/{{ brochure_testo.brochureFilename }}" /></td> #}
+				{# <td><img src="public/uploads/brochures/My-performance-62348b24d4627.png" alt="404"/></td> #}
+				{# <td>{{ brochure_testo.brochureFilename }}</td> #}				{# <td>{{ asset('public/uploads/brochures' ~ brochure_testo.getImage()) }}</td> #}
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_brochure_testo_index') }}">back to list</a>
+
+	<a href="{{ path('app_brochure_testo_edit', {'id': brochure_testo.id}) }}">edit</a>
+
+	{{ include('brochure_testo/_delete_form.html.twig') }}
 {% endblock %}
