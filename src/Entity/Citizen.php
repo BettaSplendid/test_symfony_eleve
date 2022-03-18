@@ -72,6 +72,12 @@ class Citizen implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastname;
     }
 
+    public function getusername(): ?string
+    {
+        return $this->getLastname();
+    }
+
+
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
