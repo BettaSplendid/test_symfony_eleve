@@ -43,11 +43,24 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('roles', ChoiceType::class, [
                 "choices" => [
-                    "Pupil" => "ROLE_USER",
-                    "Admin" => "ROLE_ADMIN",
+                    "Citizen" => "Citizen",
+                    "Boss" => "Boss",
                 ]
-            ])
-            ->add('pupils', EntityType::class, [
+                ]);
+
+            $builder->get('roles')->addModelTransformer(new CallbackTransformer(
+
+                function ($tagsAsArray) {
+                    // transform the array to a string
+                    return implode(', ', $tagsAsArray);
+                },
+                function ($tagsAsString) {
+                    // transform the string back to an array
+                    return explode('. ', $tagsAsString);
+                }
+            ));
+
+            $builder->add('pupils', EntityType::class, [
                 "class" => Citizen::class,
                 "choices" => $options["mentor"] ?? "",
             ])
@@ -59,17 +72,7 @@ class RegistrationFormType extends AbstractType
                 //     ]),
                 // ],
             ]);
-        $builder->get('roles')->addModelTransformer(new CallbackTransformer(
 
-            function ($tagsAsArray) {
-                // transform the array to a string
-                return implode(', ', $tagsAsArray);
-            },
-            function ($tagsAsString) {
-                // transform the string back to an array
-                return explode('. ', $tagsAsString);
-            }
-        ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

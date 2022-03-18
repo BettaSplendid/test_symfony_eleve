@@ -20,8 +20,8 @@ class CitizenType extends AbstractType
             ->add('email')
             ->add('roles', ChoiceType::class, [
                 "choices" => [
-                    "Pupil" => "ROLE_USER",
-                    "Admin" => "ROLE_ADMIN",
+                    "Citizen" => "Citizen",
+                    "Boss" => "Boss",
                 ]
             ])
             ->add('pupils', EntityType::class, [
